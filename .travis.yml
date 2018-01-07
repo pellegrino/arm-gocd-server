@@ -2,8 +2,19 @@ sudo: required
 services:
   - docker
 languages: bash
+env:
+  - VERSION=v17.12.0
 script:
   # prepare qemu
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   # build image
   - docker build -t pellegrino/gocd-server-arm .
+  - >
+    if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+      docker tag pellegrino/gocd-server-arm pellegrino/gocd-server-arm:$VERSION
+      docker tag pellegrino/gocd-server-arm pellegrino/gocd-server-arm:latest
+      docker push pellegrino/gocd-server-arm:$VERSION
+      docker push pellegrino/gocd-server-arm:latest
+      docker push pellegrino/gocd-server-arm
+    fi

@@ -1,6 +1,6 @@
 # ARM image for a GoCD server based on alpine linux
 
-For running gocd on raspberry PI and other arm based processors.
+For running gocd on raspberry PI and other arm based processors. Based on https://github.com/gocd/docker-gocd-server
 
 # GoCD Server Docker image
 
